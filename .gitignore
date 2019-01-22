@@ -30,3 +30,4 @@ softcore.c
 ficll
 ficlplatform.h
 cscope.out
+extras1.o
