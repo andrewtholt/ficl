@@ -18,7 +18,7 @@ HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 MAJOR = 4
 MINOR = 2.0
 
-ficll.exe: $(HEADERS) softcore.c main.o libficl.a
+ficll: $(HEADERS) softcore.c main.o libficl.a
 	$(CC) $(OPT) $(STATIC) main.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
 
 lib: libficl.so.$(MAJOR).$(MINOR)
@@ -72,5 +72,5 @@ clean:
 	$(RM) softcore.c
 
 clobber: clean
-	$(RM) ficll.exe
+	$(RM) ficll
 
