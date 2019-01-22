@@ -1,6 +1,6 @@
 ## Ficl ##
 
-A fork (of https://github.com/pahihu/ficl) which is a fork.
+A fork (of https://github.com/pahihu/ficl) which is a fork of the original ficl.
 
 This varaint has a number of changes that will save me some time.
 
