@@ -2,7 +2,7 @@
 /task allocate abort" Allocate failed" value bill-vm
 bill-vm /task erase
 
-bill-vm construct bill
+bill-vm construct 
 
 : bill
     begin 
