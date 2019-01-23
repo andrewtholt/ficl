@@ -1,6 +1,7 @@
 1 set-sched .
 
-0 value counter
+variable counter
+0 counter !
 
 /mutex allocate abort" Allocate failed" value lock
 lock mutex-init
@@ -17,21 +18,21 @@ ted-vm construct
 
 : bill
     begin 
-        ." Around ...." counter . cr
-        1500 ms 
         lock get
-        counter 1+ to counter
+        ." Around ...." counter @ dup . cr
+        1+ counter !
         lock release
+        1500 ms 
     again
 ;
 
 : ted
     begin 
-        ." And ...." counter . cr 
-        1500 ms 
         lock get
-        counter 1- to counter
+        ." And ...." counter @ dup . cr 
+        1- counter !
         lock release
+        1500 ms 
     again
 ;
 
