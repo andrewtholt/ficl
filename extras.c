@@ -614,6 +614,29 @@ int recursiveMutexInit(pthread_mutex_t *mutex)
 }
 
 
+/* : GET-SCHED ( -- n) */
+static void ficlPrimitivesGetSched(ficlVm *vm) {
+    int policy;
+
+    policy = sched_getscheduler(0);
+
+    ficlStackPushInteger(vm->dataStack, policy);
+}
+
+#define PARENT_PRIORITY	 	5 // ToDo What does this mean ?
+/* : SET-SCHED ( n -- ) */
+static void ficlPrimitivesSetSched(ficlVm *vm) {
+    int policy;
+    int rc=-1;
+    struct sched_param param;
+
+    param.sched_priority = 99;
+
+    policy = ficlStackPopInteger(vm->dataStack);
+    rc=sched_setscheduler( 0,policy,  &param );
+
+    ficlStackPushInteger(vm->dataStack, rc);
+}
 /* : /TASK ( -- n ) */
 static void ficlPrimitiveSlashTask(ficlVm *vm)
 {
@@ -1285,6 +1308,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "dst?", 	 ficlPrimitiveDstQ);
 
 #if FICL_WANT_MULTITHREADED
+    addPrimitive(dictionary, "get-sched", ficlPrimitivesGetSched);
+    addPrimitive(dictionary, "set-sched", ficlPrimitivesSetSched);
     addPrimitive(dictionary, "/task",     ficlPrimitiveSlashTask);
     addPrimitive(dictionary, "construct", ficlPrimitiveConstruct);
     addPrimitive(dictionary, "activate",  ficlPrimitiveActivate);
