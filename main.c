@@ -40,7 +40,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "ficl.h"
+#ifdef __cplusplus
+}
+#endif
 
 ficlVm *f_vm;
 ficlSystem *f_system;
@@ -207,7 +213,7 @@ int main(int argc, char **argv)
     f_system = ficlSystemCreate(&fsi);
     f_vm = ficlSystemCreateVm(f_system);
 
-    returnValue = ficlVmEvaluate(f_vm, ".ver .( " __DATE__ " ) cr quit");
+    returnValue = ficlVmEvaluate(f_vm, (char *)".ver .( " __DATE__ " ) cr quit");
 
     /*
     ** load files specified on command-line
