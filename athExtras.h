@@ -1,0 +1,2 @@
+
+void athSmallest(ficlVm *vm) ;

@@ -2,7 +2,8 @@
 
 #ifdef __cplusplus
 extern "C" {
-#include "ficl.h"
+#pragma once
+// #include "ficl.h"
 #endif
 
 #ifdef __cplusplus
@@ -10,6 +11,7 @@ extern "C" {
 #endif
 
 class smallest {
-    smallest();
+    public:
+        smallest();
 };
 

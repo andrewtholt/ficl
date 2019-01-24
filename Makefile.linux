@@ -1,9 +1,11 @@
 # Flags for shared library
 TARGET= -Dlinux  # riscos MOTO_CPU32 
 SHFLAGS = -fPIC
-OPTFLAGS=-g
+OPTFLAGS=-g -Wl,--no-as-needed
+
 LIBM    = -lm -lstdc++
 # MFLAGS  = -DFICL_USE_FDLIBM -Ifdlibm53 -DFICL_USE_STRTOD
+MFLAGS = -DATH
 # LIBM    = fdlibm53/libfdm.a
 # DTOAO   = dtoa.o
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
@@ -13,7 +15,8 @@ LIB = ar cr
 RANLIB = ranlib
 STATIC = 
 
-OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o $(DTOAO) extras1.o
+
+OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o $(DTOAO) athExtras.o smallest.o
 
 HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 

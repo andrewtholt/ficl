@@ -6,6 +6,10 @@
 
 #include "ficl.h"
 
+#ifdef ATH
+#include "athExtras.h"
+#endif
+
 #ifdef WIN32
 #include <io.h>
 #define getcwd _getcwd
@@ -1353,6 +1357,10 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "rulez",   ficlPrimitiveRulez);
     addPrimitive(dictionary, "wrulez",  ficlPrimitiveWRulez);
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
+
+    #ifdef ATH
+    addPrimitive(dictionary, "smallest",  athSmallest);
+    #endif
 
     return;
 }
