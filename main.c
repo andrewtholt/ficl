@@ -178,13 +178,19 @@ int main(int argc, char **argv)
 	ficlSystemInformationInitialize(&fsi);
 
 	narg = 1;
-	while ((narg < argc) && ('-' == *argv[narg]))
-    {
+	while ((narg < argc) && ('-' == *argv[narg])) {
 		switch (argv[narg][1]) {
-		case 's': fsi.stackSize = atoi(argv[narg]+2); break;
-		case 'e': fsi.environmentSize = atoi(argv[narg]+2); break;
-		case 'd': fsi.dictionarySize = atoi(argv[narg]+2); break;
-		default:	 usage();
+    		case 's': 
+                fsi.stackSize = atoi(argv[narg]+2); 
+                break;
+		    case 'e': 
+                fsi.environmentSize = atoi(argv[narg]+2); 
+                break;
+		    case 'd': 
+                fsi.dictionarySize = atoi(argv[narg]+2); 
+                break;
+		    default:	 
+                usage();
 		}
 		narg++;
 	}
