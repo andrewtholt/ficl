@@ -9,6 +9,7 @@ MFLAGS = -DATH
 # LIBM    = fdlibm53/libfdm.a
 # DTOAO   = dtoa.o
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
+CPFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
 CC=gcc
 CPP=g++
 LIB = ar cr
@@ -27,6 +28,12 @@ ficll: $(HEADERS) softcore.c main.o libficl.a
 	$(CC) $(OPT) $(STATIC) main.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
 
 lib: libficl.so.$(MAJOR).$(MINOR)
+
+smallest.o: smallest.cpp smallest.h
+	$(CPP) $(CPFLAGS) -c smallest.cpp -o smallest.o
+
+athExtras.o: athExtras.cpp athExtras.h
+	$(CPP) $(CPFLAGS) -c athExtras.cpp -o athExtras.o
 
 # static library build
 libficl.a: $(OBJECTS)
@@ -58,7 +65,7 @@ ficlplatform.h: Makefile
 #
 #       generic object code
 #
-.SUFFIXES: .cxx .cc .c .o
+.SUFFIXES: .cpp .cxx .cc .c .o
 
 .c.o:
 	$(CC) $(CFLAGS) -c $*.c
