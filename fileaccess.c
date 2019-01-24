@@ -470,7 +470,7 @@ static void ficlPrimitiveUse(ficlVm *vm) /* ( fileid -- ) */
 }
 
 
-ficlFile *ficlStdIn, *ficlStdOut, *ficlStdErr;
+// ficlFile *ficlStdIn, *ficlStdOut, *ficlStdErr;
 
 
 #if FICL_PLATFORM_HAS_FTRUNCATE
