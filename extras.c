@@ -8,6 +8,9 @@
 
 #ifdef ATH
 #include <sys/socket.h>
+#include <sys/un.h>
+#include <netinet/in.h>
+#include <netdb.h>
 
 #ifdef ATH_OBJECTS
 #include "athExtras.h"
@@ -1291,6 +1294,52 @@ static void athSocket(ficlVm * vm) {
     ficlStackPushInteger(vm->dataStack, sock1);
 }
 
+static void athConnect(ficlVm * vm) {
+    char           *hostName;
+    int             len, port;
+    int             tmp;
+    int             sock1;
+    int             exitStatus = 0;
+//    struct sockaddr_in serv_addr;
+    //    struct hostent *hp; 
+    int rc;
+
+    struct addrinfo *result = NULL;
+    struct addrinfo hint;
+
+    char portNumber[8];
+
+    memset(&hint, 0 , sizeof(hint));
+
+    hint.ai_family = AF_INET;
+    hint.ai_socktype = SOCK_STREAM;
+
+    port = ficlStackPopInteger(vm->dataStack);
+
+    sprintf(portNumber,"%d",port);
+    len = ficlStackPopInteger(vm->dataStack);
+
+    hostName = (char *)ficlStackPopPointer(vm->dataStack);
+    hostName[len] = '\0';
+
+    rc = getaddrinfo(hostName, portNumber, &hint, &result);
+
+    if( 0 == rc ) {
+        sock1 = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+        if(sock1 < 0) {
+            exitStatus = -1;
+        } else {
+            tmp = connect(sock1, result->ai_addr, result->ai_addrlen );
+            if (tmp < 0)
+                exitStatus = -1;
+        }
+    }
+    if (exitStatus == 0) {
+        ficlStackPushInteger(vm->dataStack, sock1);
+    }
+    ficlStackPushInteger(vm->dataStack, exitStatus);
+}
+
 
 
 #endif
@@ -1384,7 +1433,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
 
     #ifdef ATH
     addPrimitive(dictionary, "fd@",     athFdGet);
-    addPrimitive(dictionary, "socket@", athSocket);
+    addPrimitive(dictionary, "socket",  athSocket);
+    addPrimitive(dictionary, "connect", athConnect);
 
     #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest",  athSmallest);
