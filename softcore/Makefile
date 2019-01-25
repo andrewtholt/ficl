@@ -1,4 +1,4 @@
-CC = cc -m64
+# CC = cc -m64
 SOURCES  = softcore.fr ifbrack.fr prefix.fr ficl.fr jhlocal.fr marker.fr
 # SOURCES += oo.fr classes.fr string.fr
 # SOURCES += preswoop.fr swoop.fr swoopex.fr
