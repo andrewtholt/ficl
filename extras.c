@@ -1366,7 +1366,33 @@ static void athSend(ficlVm * vm) {
     ficlStackPushInteger(vm->dataStack, status);
     flag = ( status < 0 );
     ficlStackPushInteger(vm->dataStack, flag);
+}
 
+static void athGetService(ficlVm *vm) {
+
+    char *serviceName=NULL;
+    uint32_t nameLen=0;
+    struct servent *serv=NULL;
+    uint32_t port=0;
+
+    nameLen = ficlStackPopInteger(vm->dataStack);
+    serviceName = (char *)ficlStackPopPointer(vm->dataStack);
+
+    serv = getservbyname(serviceName,NULL);
+    if (serv == NULL) {
+        port=0;
+    } else {
+        port=ntohs(serv->s_port);
+    }
+
+    ficlStackPushInteger(vm->dataStack, port);
+}
+
+static void athClose(ficlVm * vm) {
+    int             sock;
+
+    sock = ficlStackPopInteger(vm->dataStack);
+    close(sock);
 }
 
 
@@ -1463,9 +1489,11 @@ void ficlSystemCompileExtras(ficlSystem *system)
     #ifdef ATH
     addPrimitive(dictionary, "fd@",     athFdGet);
     addPrimitive(dictionary, "socket",  athSocket);
-    addPrimitive(dictionary, "connect", athConnect);
-    addPrimitive(dictionary, "socket-recv", athRecv);
-    addPrimitive(dictionary, "socket-send", athSend);
+    addPrimitive(dictionary, "socket-connect", athConnect);
+    addPrimitive(dictionary, "socket-recv",  athRecv);
+    addPrimitive(dictionary, "socket-send",  athSend);
+    addPrimitive(dictionary, "socket-service",athGetService);
+    addPrimitive(dictionary, "socket-Close", athClose);
 
     #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest",  athSmallest);
