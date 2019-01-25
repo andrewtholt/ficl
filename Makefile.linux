@@ -64,7 +64,7 @@ smallest.o: smallest.cpp smallest.h
 	$(CPP) $(CPFLAGS) -c smallest.cpp -o smallest.o
 
 athExtras.o: athExtras.cpp athExtras.h
-	$(CPP) $(CPFLAGS) -c athExtras.cpp -o athExtras.o
+	$(CPP) $(CPFLAGS) -I../../PLC -c athExtras.cpp -o athExtras.o
 
 # static library build
 libficl.a: $(OBJECTS)
