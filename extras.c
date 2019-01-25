@@ -1271,6 +1271,18 @@ static void ficlPrimitiveWRulez(ficlVm *vm)
     }
 }
 
+#ifdef ATH
+
+static void athFdGet(ficlVm *vm) {
+    ficlFile *ff = (ficlFile *)ficlStackPopPointer(vm->dataStack);
+
+    int fd = fileno(ff->f);
+
+    ficlStackPushInteger(vm->dataStack, fd);
+}
+
+#endif
+
 #define addPrimitive(d,nm,fn) \
    ficlDictionarySetPrimitive(d,nm,fn,FICL_WORD_DEFAULT)
 
@@ -1360,6 +1372,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
 
     #ifdef ATH
     addPrimitive(dictionary, "smallest",  athSmallest);
+
+    addPrimitive(dictionary, "fd@",  athFdGet);
     #endif
 
     return;
