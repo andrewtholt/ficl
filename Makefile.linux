@@ -113,6 +113,7 @@ clean:
 	$(RM) *.o *.a libficl.*
 	$(RM) ficlplatform.h
 	$(RM) softcore.c
+	$(RM) -f cscope.out
 
 clobber: clean
 	$(RM) -f ficll ficl++
