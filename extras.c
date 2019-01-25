@@ -1300,8 +1300,6 @@ static void athConnect(ficlVm * vm) {
     int             tmp;
     int             sock1;
     int             exitStatus = 0;
-//    struct sockaddr_in serv_addr;
-    //    struct hostent *hp; 
     int rc;
 
     struct addrinfo *result = NULL;
@@ -1338,6 +1336,37 @@ static void athConnect(ficlVm * vm) {
         ficlStackPushInteger(vm->dataStack, sock1);
     }
     ficlStackPushInteger(vm->dataStack, exitStatus);
+}
+
+static void athRecv(ficlVm * vm) {
+    int             n;
+    int             sock2;
+    int             len;
+    char           *msg;
+
+    sock2 = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    msg =(char *)ficlStackPopPointer(vm->dataStack);
+    n = recv(sock2, msg, len, 0);
+    ficlStackPushInteger(vm->dataStack, n);
+}
+
+static void athSend(ficlVm * vm) {
+    char           *buffer;
+    int             len;
+    int flag=0;
+    int             sock2;
+    int             status;
+
+    sock2 = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    buffer = (char *)ficlStackPopPointer(vm->dataStack);
+
+    status = send(sock2, buffer, len, 0);
+    ficlStackPushInteger(vm->dataStack, status);
+    flag = ( status < 0 );
+    ficlStackPushInteger(vm->dataStack, flag);
+
 }
 
 
@@ -1435,6 +1464,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "fd@",     athFdGet);
     addPrimitive(dictionary, "socket",  athSocket);
     addPrimitive(dictionary, "connect", athConnect);
+    addPrimitive(dictionary, "socket-recv", athRecv);
+    addPrimitive(dictionary, "socket-send", athSend);
 
     #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest",  athSmallest);
