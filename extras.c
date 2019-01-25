@@ -7,6 +7,8 @@
 #include "ficl.h"
 
 #ifdef ATH
+#include <sys/socket.h>
+
 #ifdef ATH_OBJECTS
 #include "athExtras.h"
 #endif
@@ -1283,6 +1285,14 @@ static void athFdGet(ficlVm *vm) {
     ficlStackPushInteger(vm->dataStack, fd);
 }
 
+static void athSocket(ficlVm * vm) {
+    int             sock1;
+    sock1 = socket(AF_INET, SOCK_STREAM, 0);
+    ficlStackPushInteger(vm->dataStack, sock1);
+}
+
+
+
 #endif
 
 #define addPrimitive(d,nm,fn) \
@@ -1373,7 +1383,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
 
     #ifdef ATH
-    addPrimitive(dictionary, "fd@",  athFdGet);
+    addPrimitive(dictionary, "fd@",     athFdGet);
+    addPrimitive(dictionary, "socket@", athSocket);
 
     #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest",  athSmallest);
