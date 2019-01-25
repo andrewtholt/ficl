@@ -10,7 +10,7 @@ LIBM    = -lm -lstdc++
 # The ATH_OBJECTS adds the C++ add ons I have written too.
 # If ATH is not define none of my stuff is addded.
 #
-MFLAGS = -DATH -DATH_OBJECTS
+# MFLAGS = -DATH -DATH_OBJECTS
 # LIBM    = fdlibm53/libfdm.a
 # DTOAO   = dtoa.o
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
@@ -22,15 +22,20 @@ RANLIB = ranlib
 STATIC = 
 
 
-OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o $(DTOAO) athExtras.o smallest.o
+OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o $(DTOAO) # athExtras.o smallest.o
 
 HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 
 MAJOR = 4
 MINOR = 2.0
 
+all:    ficll ficl++ Makefile
+
 ficll: $(HEADERS) softcore.c main.o libficl.a
 	$(CC) $(OPT) $(STATIC) main.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
+
+ficl++: $(HEADERS) softcore.c main.o libficl.a smallest.o athExtras.o
+	$(CC) $(OPT) $(STATIC) main.o smallest.o athExtras.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
 
 lib: libficl.so.$(MAJOR).$(MINOR)
 
