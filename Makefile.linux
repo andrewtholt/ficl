@@ -5,7 +5,12 @@ OPTFLAGS=-g -Wl,--no-as-needed
 
 LIBM    = -lm -lstdc++
 # MFLAGS  = -DFICL_USE_FDLIBM -Ifdlibm53 -DFICL_USE_STRTOD
-MFLAGS = -DATH
+# 
+# The ATH flag enable additions done by me (Andrew T Holt)
+# The ATH_OBJECTS adds the C++ add ons I have written too.
+# If ATH is not define none of my stuff is addded.
+#
+MFLAGS = -DATH -DATH_OBJECTS
 # LIBM    = fdlibm53/libfdm.a
 # DTOAO   = dtoa.o
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)

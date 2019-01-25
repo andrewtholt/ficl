@@ -7,7 +7,9 @@
 #include "ficl.h"
 
 #ifdef ATH
+#ifdef ATH_OBJECTS
 #include "athExtras.h"
+#endif
 #endif
 
 #ifdef WIN32
@@ -1371,9 +1373,11 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
 
     #ifdef ATH
-    addPrimitive(dictionary, "smallest",  athSmallest);
-
     addPrimitive(dictionary, "fd@",  athFdGet);
+
+    #ifdef ATH_OBJECTS
+    addPrimitive(dictionary, "smallest",  athSmallest);
+    #endif
     #endif
 
     return;
