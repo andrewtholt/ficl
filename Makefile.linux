@@ -13,6 +13,17 @@ LIBM    = -lm -lstdc++
 # MFLAGS = -DATH -DATH_OBJECTS
 # LIBM    = fdlibm53/libfdm.a
 # DTOAO   = dtoa.o
+
+ALL=ficll
+ifdef ATH
+MFLAGS +=-DATH
+ifdef ATH_OBJECTS
+MFLAGS +=-DATH_OBJECTS
+XOBJECTS=athExtras.o smallest.o
+ALL = ficl++
+endif
+endif
+
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
 CPFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
 CC=gcc
@@ -29,13 +40,23 @@ HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 MAJOR = 4
 MINOR = 2.0
 
-all:    ficll ficl++ Makefile
+all:	$(ALL)
+
+help:
+	@echo "Help"
+	@echo "\tJust make builds the default versionwith none of my extentions."
+	@echo "\tmake ATH=1 builds the general tools added to extras.c"
+	@echo "\tmake ATH=1 ATH_OBJECTS Build as above plus any C++ add ons."
+	@echo ""
+	@echo "Note:"
+	@echo "\tIf you change the options do a clean."
 
 ficll: $(HEADERS) softcore.c main.o libficl.a
+	echo $(ALL)
 	$(CC) $(OPT) $(STATIC) main.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
 
-ficl++: $(HEADERS) softcore.c main.o libficl.a smallest.o athExtras.o
-	$(CC) $(OPT) $(STATIC) main.o smallest.o athExtras.o -o $@ -L. -lficl -lpthread -ldl $(LIBM)
+ficl++: $(HEADERS) softcore.c main.o libficl.a $(XOBJECTS) # smallest.o athExtras.o
+	$(CC) $(OPT) $(STATIC) main.o $(XOBJECTS) -o $@ -L. -lficl -lpthread -ldl $(LIBM)
 
 lib: libficl.so.$(MAJOR).$(MINOR)
 
@@ -94,5 +115,5 @@ clean:
 	$(RM) softcore.c
 
 clobber: clean
-	$(RM) ficll
+	$(RM) -f ficll ficl++
 
