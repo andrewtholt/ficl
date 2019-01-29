@@ -4,7 +4,7 @@ TARGET= -Dlinux  # riscos MOTO_CPU32
 SHFLAGS = -fPIC
 OPTFLAGS=-g -Wl,--no-as-needed
 
-LIBM    = -lm -lstdc++
+LIBM ?= -lm
 # MFLAGS  = -DFICL_USE_FDLIBM -Ifdlibm53 -DFICL_USE_STRTOD
 # 
 # The ATH flag enable additions done by me (Andrew T Holt)
