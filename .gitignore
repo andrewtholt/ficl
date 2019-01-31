@@ -7,3 +7,4 @@ ficlplatform.h
 cscope.out
 *.swp
 ficl++
+.gdb_history
