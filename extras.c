@@ -1280,6 +1280,22 @@ static void ficlPrimitiveWRulez(ficlVm *vm)
 
 #ifdef ATH
 
+static void athGetenv(ficlVm *vm) {
+    char *tmp;
+    int destLen = ficlStackPopInteger(vm->dataStack);
+    char *dest = (char *)ficlStackPopPointer(vm->dataStack);
+
+    int nameLen = ficlStackPopInteger(vm->dataStack);
+    char *name = (char *)ficlStackPopPointer(vm->dataStack);
+
+    name[nameLen]='\0';
+
+    tmp = getenv( name );
+    strncpy(dest, tmp, destLen);
+
+    ficlStackPushInteger(vm->dataStack, strlen(dest));
+}
+
 static void athFdGet(ficlVm *vm) {
     ficlFile *ff = (ficlFile *)ficlStackPopPointer(vm->dataStack);
 
@@ -1487,6 +1503,7 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
 
     #ifdef ATH
+    addPrimitive(dictionary, "getenv",  athGetenv);
     addPrimitive(dictionary, "fd@",     athFdGet);
     addPrimitive(dictionary, "socket",  athSocket);
     addPrimitive(dictionary, "socket-connect", athConnect);
