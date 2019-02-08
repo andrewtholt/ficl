@@ -56,4 +56,9 @@ extern "C" void plcVerbose(ficlVm *vm) {
 }
 
 extern "C" void addIO(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+    int len = ficlStackPopInteger(vm->dataStack);
+    char *name = (char *)ficlStackPopPointer(vm->dataStack);
+
+    bool failFlag = me->addIOPoint( name );
 }
