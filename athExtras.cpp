@@ -55,3 +55,5 @@ extern "C" void plcVerbose(ficlVm *vm) {
     me->setVerbose( verbose );
 }
 
+extern "C" void addIO(ficlVm *vm) {
+}
