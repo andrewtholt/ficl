@@ -55,5 +55,3 @@ extern "C" void plcVerbose(ficlVm *vm) {
     me->setVerbose( verbose );
 }
 
-
-

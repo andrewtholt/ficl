@@ -9,3 +9,4 @@ cscope.out
 ficl++
 .gdb_history
 *.gch
+*.bak
