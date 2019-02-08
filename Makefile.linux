@@ -1,6 +1,6 @@
 # Flags for shared library
 include profile.mk
-TARGET= -Dlinux  # riscos MOTO_CPU32 
+TARGET+= -Dlinux  # riscos MOTO_CPU32 
 SHFLAGS = -fPIC
 OPTFLAGS=-g -Wl,--no-as-needed
 
@@ -18,10 +18,10 @@ LIBM ?= -lm
 ALL=ficll
 ifdef ATH
 MFLAGS +=-DATH
+ALL = ficl++
 ifdef ATH_OBJECTS
 MFLAGS +=-DATH_OBJECTS
 XOBJECTS=athExtras.o smallest.o
-ALL = ficl++
 endif
 endif
 

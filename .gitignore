@@ -8,3 +8,4 @@ cscope.out
 *.swp
 ficl++
 .gdb_history
+*.gch
