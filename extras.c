@@ -1515,6 +1515,9 @@ void ficlSystemCompileExtras(ficlSystem *system)
     #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest", athSmallest);
     addPrimitive(dictionary, "plc-new",  plcNew);
+    addPrimitive(dictionary, "plc-setup",  plcSetup );
+    addPrimitive(dictionary, "plc-dump",  plcDump );
+    addPrimitive(dictionary, "plc-verbose",  plcVerbose );
     #endif
     #endif
 
