@@ -55,19 +55,26 @@ extern "C" void plcVerbose(ficlVm *vm) {
     me->setVerbose( verbose );
 }
 //
-// Stack: shortName len topic len direction len plc -- failFlag
+// Stack: shortName len topic len direction len class len plc -- failFlag
 //
 extern "C" void addIO(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
+    int cLen = ficlStackPopInteger(vm->dataStack);
+    char *plcClass = (char *)ficlStackPopPointer(vm->dataStack);
+    plcClass[cLen] = '\0';
+
     int dLen = ficlStackPopInteger(vm->dataStack);
     char *direction = (char *)ficlStackPopPointer(vm->dataStack);
+    direction[dLen] = '\0';
 
     int tLen = ficlStackPopInteger(vm->dataStack);
     char *topic = (char *)ficlStackPopPointer(vm->dataStack);
+    topic[tLen] = '\0';
 
     int sLen = ficlStackPopInteger(vm->dataStack);
     char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
 
-    bool failFlag = me->addIOPoint( shortName, topic, direction );
+    bool failFlag = me->addIOPoint( shortName, topic, direction, plcClass );
 }
