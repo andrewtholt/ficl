@@ -7,3 +7,5 @@ void plcSetup(ficlVm *vm) ;
 void plcDump(ficlVm *vm) ;
 void plcVerbose(ficlVm *vm) ;
 void addIO(ficlVm *vm);
+void plcLd(ficlVm *vm);
+void plcInputScan(ficlVm *vm);

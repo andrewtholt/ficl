@@ -78,3 +78,10 @@ extern "C" void addIO(ficlVm *vm) {
 
     bool failFlag = me->addIOPoint( shortName, topic, direction, plcClass );
 }
+
+extern "C" void plcLd(ficlVm *vm) {
+}
+
+extern "C" void plcInputScan(ficlVm *vm) {
+
+}
