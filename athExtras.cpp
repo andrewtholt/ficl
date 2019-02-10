@@ -6,6 +6,9 @@ extern "C" {
 #include "plcBase.h"
 #include "plcDatabase.h"
 
+#include "ioClass.h"
+#include "ioHARest.h"
+
 extern "C" void athSmallest(ficlVm *vm) {
     smallest *n = new smallest();
 
@@ -83,5 +86,68 @@ extern "C" void plcLd(ficlVm *vm) {
 }
 
 extern "C" void plcInputScan(ficlVm *vm) {
+}
 
+extern "C" void plcGetCb(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    sqlite3 *db = me->getDB();
+
+    ficlStackPushPointer(vm->dataStack, db);
+}
+
+extern "C" void plcGetHostname(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    const string hostName = me->getHost();
+
+    ficlStackPushPointer(vm->dataStack, (char *)hostName.c_str());
+    ficlStackPushInteger(vm->dataStack, (int) hostName.length());
+}
+
+// Stack: db hostname len type len
+extern "C" void plcMkio(ficlVm *vm) {
+
+    int tLen = ficlStackPopInteger(vm->dataStack);
+    char *ioType = (char *)ficlStackPopPointer(vm->dataStack);
+    ioType[tLen] = '\0';
+
+    int hLen = ficlStackPopInteger(vm->dataStack);
+    char *hostname = (char *)ficlStackPopPointer(vm->dataStack);
+    hostname[hLen] = '\0';
+
+    sqlite3 *db = (sqlite3 *) ficlStackPopPointer(vm->dataStack);
+
+
+    ioClass *io = nullptr ;
+    if( !strcmp(ioType, (char *)"HA_REST")){
+        io = new ioHARest(db, hostname);
+    }
+    ficlStackPushPointer(vm->dataStack, io);
+
+}
+// Stack: name len plc -- 
+extern "C" void plcSetHostname(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+    int hLen = ficlStackPopInteger(vm->dataStack);
+    char *hostname = (char *)ficlStackPopPointer(vm->dataStack);
+    hostname[hLen] = '\0';
+
+    me->setHost(hostname);
+}
+// Stacl: plc -- port
+extern "C" void plcGetPort(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int portNum = me->getPort();
+
+    ficlStackPushInteger(vm->dataStack, portNum);
+
+}
+// Stack: port plc --
+extern "C" void plcSetPort(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+    int portNum = ficlStackPopInteger(vm->dataStack);
+
+    me->setPort ( portNum);
 }

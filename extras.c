@@ -1513,6 +1513,12 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "socket-Close", athClose);
 
     #ifdef ATH_OBJECTS
+addPrimitive(dictionary, "plc-set-port", plcSetPort);
+addPrimitive(dictionary, "plc-get-port", plcGetPort);
+addPrimitive(dictionary, "plc-get-hostname", plcGetHostname);
+addPrimitive(dictionary, "plc-set-hostname", plcSetHostname);
+addPrimitive(dictionary, "plc-mkio", plcMkio);
+addPrimitive(dictionary, "plc-getdb", plcGetCb);
 addPrimitive(dictionary, "plc-input-scan", plcInputScan);
     addPrimitive(dictionary, "plc-ld", plcLd);
     addPrimitive(dictionary, "plc-add-io", addIO);
