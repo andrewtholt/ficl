@@ -88,7 +88,7 @@ extern "C" void plcLd(ficlVm *vm) {
 extern "C" void plcInputScan(ficlVm *vm) {
 }
 
-extern "C" void plcGetCb(ficlVm *vm) {
+extern "C" void plcGetDb(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
     sqlite3 *db = me->getDB();

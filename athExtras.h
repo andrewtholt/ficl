@@ -9,7 +9,7 @@ void plcVerbose(ficlVm *vm) ;
 void addIO(ficlVm *vm);
 void plcLd(ficlVm *vm);
 void plcInputScan(ficlVm *vm);
-void plcGetCb(ficlVm *vm);
+void plcGetDb(ficlVm *vm);
 void plcGetHostname(ficlVm *vm);
 void plcMkio(ficlVm *vm);
 void plcSetHostname(ficlVm *vm);
