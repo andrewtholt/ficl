@@ -92,8 +92,6 @@ extern "C" void plcLd(ficlVm *vm) {
     me->Ld( shortName );
 }
 
-extern "C" void plcInputScan(ficlVm *vm) {
-}
 // STack: plc -- sqlite3 *db
 extern "C" void plcGetDb(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
@@ -167,6 +165,11 @@ extern "C" void plcGetTOS(ficlVm *vm) {
     int v = (f) ? -1 : 0;
 
     ficlStackPushInteger(vm->dataStack, v);
-
-
 }
+
+extern "C" void plcInputScan(ficlVm *vm) {
+}
+
+extern "C" void plcOutputUpdate(ficlVm *vm) {
+}
+

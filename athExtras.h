@@ -16,3 +16,4 @@ void plcSetHostname(ficlVm *vm);
 void plcGetPort(ficlVm *vm);
 void plcSetPort(ficlVm *vm);
 void plcGetTOS(ficlVm *vm);
+void plcOutputUpdate(ficlVm *vm);
