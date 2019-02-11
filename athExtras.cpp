@@ -168,8 +168,29 @@ extern "C" void plcGetTOS(ficlVm *vm) {
 }
 
 extern "C" void plcInputScan(ficlVm *vm) {
+    ioClass *io = (ioClass *)ficlStackPopPointer(vm->dataStack) ;
+
+    io->inputScan();
 }
 
 extern "C" void plcOutputUpdate(ficlVm *vm) {
+    ioClass *io = (ioClass *)ficlStackPopPointer(vm->dataStack) ;
+
+    io->outputUpdate();
+}
+
+extern "C" void plcOut(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Out( shortName );
+}
+
+extern "C" void plcEnd(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+    me->plcEnd(0);
 }
 

@@ -8,7 +8,7 @@ s" /tmp/plc.db" plc-new to plc
 s" 192.168.0.65" plc plc-set-hostname
 8123 plc plc-set-port
 
-1 plc plc-setup
+0 plc plc-setup
 1 plc plc-verbose
 
 plc plc-getdb to db
@@ -25,7 +25,14 @@ s" OUT2" s" switch.relay_4" s" OUT" s" HA_REST" plc plc-add-io
 cr
 plc plc-dump
 
-s" IN1" plc plc-ld
+io plc-input-scan
 
-plc plc@
+s" IN1"  plc plc-ld
+s" OUT1" plc plc-out
+
+io plc-output-update
+
+plc plc-end
+
+\ plc plc@
 
