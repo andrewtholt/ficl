@@ -81,13 +81,20 @@ extern "C" void addIO(ficlVm *vm) {
 
     bool failFlag = me->addIOPoint( shortName, topic, direction, plcClass );
 }
-
+// Stack: name len plc -- 
 extern "C" void plcLd(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Ld( shortName );
 }
 
 extern "C" void plcInputScan(ficlVm *vm) {
 }
-
+// STack: plc -- sqlite3 *db
 extern "C" void plcGetDb(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
@@ -95,7 +102,7 @@ extern "C" void plcGetDb(ficlVm *vm) {
 
     ficlStackPushPointer(vm->dataStack, db);
 }
-
+// Stack: plc -- addr len
 extern "C" void plcGetHostname(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
@@ -105,7 +112,7 @@ extern "C" void plcGetHostname(ficlVm *vm) {
     ficlStackPushInteger(vm->dataStack, (int) hostName.length());
 }
 
-// Stack: db hostname len type len
+// Stack: db hostname len type len --
 extern "C" void plcMkio(ficlVm *vm) {
 
     int tLen = ficlStackPopInteger(vm->dataStack);
@@ -135,7 +142,7 @@ extern "C" void plcSetHostname(ficlVm *vm) {
 
     me->setHost(hostname);
 }
-// Stacl: plc -- port
+// Stack: plc -- port
 extern "C" void plcGetPort(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
@@ -150,4 +157,16 @@ extern "C" void plcSetPort(ficlVm *vm) {
     int portNum = ficlStackPopInteger(vm->dataStack);
 
     me->setPort ( portNum);
+}
+// Stack plc -- bool
+extern "C" void plcGetTOS(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    bool f = me->getTOS();
+
+    int v = (f) ? -1 : 0;
+
+    ficlStackPushInteger(vm->dataStack, v);
+
+
 }

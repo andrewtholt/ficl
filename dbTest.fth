@@ -12,7 +12,6 @@ s" 192.168.0.65" plc plc-set-hostname
 1 plc plc-verbose
 
 plc plc-getdb to db
-
 plc plc-get-hostname to hostname
 
 db hostname s" HA_REST" plc-mkio dup 0= abort" Failed to create io." to io
@@ -25,3 +24,8 @@ s" OUT2" s" switch.relay_4" s" OUT" s" HA_REST" plc plc-add-io
 
 cr
 plc plc-dump
+
+s" IN1" plc plc-ld
+
+plc plc@
+

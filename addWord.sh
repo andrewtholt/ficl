@@ -23,6 +23,7 @@ echo "void $FUNC_NAME(ficlVm *vm);" >> athExtras.h
 # This goes into athExtras.cpp
 echo "extern \"C\" void $FUNC_NAME(ficlVm *vm) {" >> athExtras.cpp
 echo "}" >> athExtras.cpp
+echo "" >> athExtras.cpp
 
 
 TMP=$(grep -n ATH_OBJ extras.c | tail -1 | cut -f1 -d":")
