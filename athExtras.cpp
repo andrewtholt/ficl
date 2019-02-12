@@ -194,3 +194,23 @@ extern "C" void plcEnd(ficlVm *vm) {
     me->plcEnd(0);
 }
 
+extern "C" void plcOr(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Or( shortName );
+}
+
+extern "C" void plcAndNot(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Andn( shortName );
+}
+

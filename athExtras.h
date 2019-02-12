@@ -19,3 +19,5 @@ void plcGetTOS(ficlVm *vm);
 void plcOutputUpdate(ficlVm *vm);
 void plcOut(ficlVm *vm);
 void plcEnd(ficlVm *vm);
+void plcOr(ficlVm *vm);
+void plcAndNot(ficlVm *vm);
