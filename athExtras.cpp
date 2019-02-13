@@ -8,6 +8,7 @@ extern "C" {
 
 #include "ioClass.h"
 #include "ioHARest.h"
+#include "timerBase.h"
 
 extern "C" void athSmallest(ficlVm *vm) {
     smallest *n = new smallest();
@@ -212,5 +213,26 @@ extern "C" void plcAndNot(ficlVm *vm) {
     shortName[sLen]='\0';
 
     me->Andn( shortName );
+}
+
+extern "C" void mkTimer(ficlVm *vm) {
+    msTimer *n = new msTimer();
+    ficlStackPushPointer(vm->dataStack, n);
+
+}
+
+extern "C" void startTimer(ficlVm *vm) {
+    msTimer *n = (msTimer *)ficlStackPopPointer(vm->dataStack);
+
+    n->start();
+}
+
+extern "C" void readTimer(ficlVm *vm) {
+    msTimer *n = (msTimer *)ficlStackPopPointer(vm->dataStack);
+
+    uint32_t d = n->read();
+    ficlStackPushInteger(vm->dataStack, d);
+
+
 }
 
