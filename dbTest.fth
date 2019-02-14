@@ -16,23 +16,31 @@ plc plc-get-hostname to hostname
 
 db hostname s" HA_REST" plc-mkio dup 0= abort" Failed to create io." to io
 
-s" IN1" s" switch.relay_1" s" IN" s" HA_REST" plc plc-add-io
-s" IN2" s" switch.relay_2" s" IN" s" HA_REST" plc plc-add-io
+s" START" s" switch.relay_1" s" IN" s" HA_REST" plc plc-add-io
+s" STOP" s" switch.relay_2" s" IN" s" HA_REST" plc plc-add-io
 
-s" OUT1" s" switch.relay_3" s" OUT" s" HA_REST" plc plc-add-io
-s" OUT2" s" switch.relay_4" s" OUT" s" HA_REST" plc plc-add-io
+s" MOTOR" s" switch.relay_3" s" OUT" s" HA_REST" plc plc-add-io
+\ s" OUT2" s" switch.relay_4" s" OUT" s" HA_REST" plc plc-add-io
 
 cr
 plc plc-dump
 
-io plc-input-scan
 
-s" IN1"  plc plc-ld
-s" OUT1" plc plc-out
+: logic
+    io plc-input-scan
 
-io plc-output-update
-
-plc plc-end
+    s" START"  plc plc-ld
+    s" MOTOR"  plc plc-or
+    s" STOP"   plc plc-andn
+    
+    s" MOTOR" plc plc-out
+    
+    io plc-output-update
+    
+    plc plc-end
+;
 
 \ plc plc@
+
+logic
 
