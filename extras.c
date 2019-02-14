@@ -11,6 +11,7 @@
 #include <sys/un.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include "athTimer.h"
 
 #ifdef ATH_OBJECTS
 #include "athExtras.h"
@@ -1411,9 +1412,26 @@ static void athClose(ficlVm * vm) {
     close(sock);
 }
 
+static void athMkTimer(ficlVm * vm) {
+    struct athTimer *myTimer = mkTimer();
+
+    ficlStackPushPointer(vm->dataStack, myTimer);
+}
+
+static void athStartTimer(ficlVm * vm) {
+    struct athTimer *myTimer = (struct athTimer *)ficlStackPopPointer(vm->dataStack);
+
+    startTimer( myTimer);
+}
+
+static void athReadTimer(ficlVm * vm) {
+    struct athTimer *myTimer = (struct athTimer *)ficlStackPopPointer(vm->dataStack);
+
+    ficlStackPushInteger(vm->dataStack, readTimer( myTimer ));
+}
 
 
-#endif
+#endif //ATH
 
 #define addPrimitive(d,nm,fn) \
     ficlDictionarySetPrimitive(d,nm,fn,FICL_WORD_DEFAULT)
@@ -1512,10 +1530,11 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "socket-service",athGetService);
     addPrimitive(dictionary, "socket-Close", athClose);
 
+    addPrimitive(dictionary, "mktimer", athMkTimer);
+    addPrimitive(dictionary, "start-timer", athStartTimer);
+    addPrimitive(dictionary, "read-timer", athReadTimer);
+
 #ifdef ATH_OBJECTS
-addPrimitive(dictionary, "read-timer", readTimer);
-addPrimitive(dictionary, "start-timer", startTimer);
-addPrimitive(dictionary, "mktimer", mkTimer);
     addPrimitive(dictionary, "plc-andn", plcAndNot);
     addPrimitive(dictionary, "plc-or", plcOr);
     addPrimitive(dictionary, "plc-end", plcEnd);

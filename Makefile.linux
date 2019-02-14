@@ -34,7 +34,7 @@ RANLIB = ranlib
 STATIC = 
 
 
-OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o timerBase.o $(DTOAO) # athExtras.o smallest.o
+OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o athTimer.o $(DTOAO) # athExtras.o smallest.o
 
 HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 
@@ -61,14 +61,14 @@ ficl++: $(HEADERS) softcore.c main.o libficl.a $(XOBJECTS) # smallest.o athExtra
 
 lib: libficl.so.$(MAJOR).$(MINOR)
 
+athTimer.o: athTimer.c athTimer.h
+	$(CC) -c $(CFLAGS) athTimer.c -o athTimer.o
+
 smallest.o: smallest.cpp smallest.h
 	$(CPP) $(CPFLAGS) -c smallest.cpp -o smallest.o
 
 athExtras.o: athExtras.cpp athExtras.h
 	$(CPP) $(CPFLAGS) -I../../PLC -c athExtras.cpp -o athExtras.o
-
-timerBase.o:    timerBase.cpp timerBase.h
-	$(CPP) $(CPFLAGS) -c timerBase.cpp -o timerBase.o
 
 # static library build
 libficl.a: $(OBJECTS)

@@ -21,6 +21,3 @@ void plcOut(ficlVm *vm);
 void plcEnd(ficlVm *vm);
 void plcOr(ficlVm *vm);
 void plcAndNot(ficlVm *vm);
-void mkTimer(ficlVm *vm);
-void startTimer(ficlVm *vm);
-void readTimer(ficlVm *vm);
