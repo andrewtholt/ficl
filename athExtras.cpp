@@ -303,6 +303,3 @@ extern "C" void plcPush(ficlVm *vm) {
 
 }
 
-extern "C" void ./plcPush(ficlVm *vm) {
-}
-
