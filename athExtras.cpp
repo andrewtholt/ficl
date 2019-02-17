@@ -214,3 +214,95 @@ extern "C" void plcAndNot(ficlVm *vm) {
     me->Andn( shortName );
 }
 
+extern "C" void plcGetValue(ficlVm *vm) {
+    static char scratch[255];
+    memset(scratch, 255, 0);
+
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    string result = me->getValue( shortName );
+
+    strncpy(scratch, result.c_str(), result.length());
+
+    ficlStackPushPointer(vm->dataStack, (void *)scratch);
+    ficlStackPushPointer(vm->dataStack, (void *)result.length());
+
+}
+//
+// Stack: value len name len plc-handle
+//
+extern "C" void plcSetValue(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    int vLen = ficlStackPopInteger(vm->dataStack);
+    char *value = (char *)ficlStackPopPointer(vm->dataStack);
+    value[vLen]='\0';
+
+    bool result = me->setValue( shortName, value );
+
+}
+
+extern "C" void plcGetBooleanValue(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    bool v = me->getBoolValue( shortName );
+
+    ficlStackPushInteger(vm->dataStack, v );
+}
+// 
+// Stack: bool name len plc
+//
+extern "C" void plcSetBooleanValue(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    bool v = ficlStackPopInteger(vm->dataStack);
+
+    me->setBoolValue( shortName, v );
+
+
+}
+
+extern "C" void plcPop(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    bool v = me->fromStack();
+
+    ficlStackPushInteger(vm->dataStack, v );
+}
+
+extern "C" void plcDepth(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int d = me->stackSize();
+
+    ficlStackPushInteger(vm->dataStack, d );
+}
+
+extern "C" void plcPush(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+    bool v = ficlStackPopInteger(vm->dataStack);
+
+    me->toStack( v );
+
+
+}
+
+extern "C" void ./plcPush(ficlVm *vm) {
+}
+
