@@ -7,6 +7,7 @@
 #include "ficl.h"
 
 #ifdef ATH
+#warning "ATH"
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <netinet/in.h>
@@ -14,6 +15,7 @@
 #include "athTimer.h"
 
 #ifdef ATH_OBJECTS
+#warning "ATH_OBJECTS"
 #include "athExtras.h"
 #endif
 #endif

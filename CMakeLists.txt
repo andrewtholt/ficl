@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 project( ficl )
 
-set(ATH 1)
-
-
 if( ARCH STREQUAL "linux")
     message("Set")
 else()
@@ -11,14 +8,7 @@ else()
 
 endif()
 
-
-message("${ARCH}")
-
-find_library(MATH m)
-find_library(DYN dl)
-find_library(PTHREAD pthread)
-
-add_executable( ficl 
+set(FICL_BASE_SOURCES 
     main.c
     dictionary.c 
     system.c 
@@ -48,6 +38,18 @@ add_executable( ficl
     athTimer.c
     )
 
+message("${ARCH}")
+
+find_library(MATH m)
+find_library(DYN dl)
+find_library(PTHREAD pthread)
+
+add_executable( ficl ${FICL_BASE_SOURCES})
+add_executable( ficl++ ${FICL_BASE_SOURCES})
+
 # SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1 -DATH_OBJECTS=1" )
-SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1")
+# SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1")
+SET_TARGET_PROPERTIES( ficl++ PROPERTIES COMPILE_FLAGS "-DATH=1 -DATH_OBJECTS=1")
+
 target_link_libraries(ficl ${MATH} ${DYN} ${PTHREAD})
+target_link_libraries(ficl++ ${MATH} ${DYN} ${PTHREAD})
