@@ -11,3 +11,5 @@ ficl++
 *.gch
 *.bak
 timerTest
+Debug
+Release
