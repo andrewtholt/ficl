@@ -5,7 +5,6 @@ if( ARCH STREQUAL "linux")
     message("Set")
 else()
     message("NOT Set")
-
 endif()
 
 set(FICL_BASE_SOURCES 
@@ -46,6 +45,15 @@ find_library(PTHREAD pthread)
 
 add_executable( ficl ${FICL_BASE_SOURCES})
 add_executable( ficl++ ${FICL_BASE_SOURCES})
+
+set( platform ${CMAKE_CURRENT_SOURCE_DIR}/mkFiclPlatform.sh)
+
+add_custom_command( TARGET ficl PRE_BUILD 
+    COMMAND ${platform}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    COMMENT "Platform details."
+)
+
 
 # SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1 -DATH_OBJECTS=1" )
 # SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1")
