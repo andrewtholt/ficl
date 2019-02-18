@@ -37,14 +37,29 @@ set(FICL_BASE_SOURCES
     athTimer.c
     )
 
+set(FICL_PLUS_SOURCES ${FICL_BASE_SOURCES} athExtras.cpp)
+
 message("${ARCH}")
+
 
 find_library(MATH m)
 find_library(DYN dl)
 find_library(PTHREAD pthread)
 
+find_library(MQTT mosquitto)
+find_library(SQL sqlite3)
+find_library(CURL curl)
+
+
+link_directories(/usr/local/lib)
+find_library(PLC plc)
+
+message( ${PLC})
+message( ${DYN})
+message( ${SQL})
+
 add_executable( ficl ${FICL_BASE_SOURCES})
-add_executable( ficl++ ${FICL_BASE_SOURCES})
+add_executable( ficl++ ${FICL_PLUS_SOURCES})
 
 set( platform ${CMAKE_CURRENT_SOURCE_DIR}/mkFiclPlatform.sh)
 
@@ -58,6 +73,9 @@ add_custom_command( TARGET ficl PRE_BUILD
 # SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1 -DATH_OBJECTS=1" )
 SET_TARGET_PROPERTIES( ficl PROPERTIES COMPILE_FLAGS "-DATH=1")
 SET_TARGET_PROPERTIES( ficl++ PROPERTIES COMPILE_FLAGS "-DATH=1 -DATH_OBJECTS=1")
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-as-needed")
+
+target_include_directories(ficl++ PRIVATE /usr/local/include)
 
 target_link_libraries(ficl ${MATH} ${DYN} ${PTHREAD})
-target_link_libraries(ficl++ ${MATH} ${DYN} ${PTHREAD})
+target_link_libraries(ficl++ ${MATH} ${DYN} ${PTHREAD} ${CURL} ${SQL} ${MQTT} ${PLC})

@@ -1559,7 +1559,7 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "plc-input-scan", plcInputScan);
     addPrimitive(dictionary, "plc-ld", plcLd);
     addPrimitive(dictionary, "plc-add-io", addIO);
-    addPrimitive(dictionary, "smallest", athSmallest);
+//    addPrimitive(dictionary, "smallest", athSmallest);
     addPrimitive(dictionary, "plc-new",  plcNew);
     addPrimitive(dictionary, "plc-setup",  plcSetup );
     addPrimitive(dictionary, "plc-dump",  plcDump );
