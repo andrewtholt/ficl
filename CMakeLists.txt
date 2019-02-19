@@ -7,6 +7,8 @@ else()
     message("NOT Set")
 endif()
 
+execute_process( WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./mkFiclPlatform.sh)
+
 set(FICL_BASE_SOURCES 
     main.c
     dictionary.c 
