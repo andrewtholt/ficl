@@ -28,3 +28,5 @@ void plcSetBooleanValue(ficlVm *vm);
 void plcPop(ficlVm *vm);
 void plcDepth(ficlVm *vm);
 void plcPush(ficlVm *vm);
+void plcLdr(ficlVm *vm);
+void plcLdf(ficlVm *vm);

@@ -305,3 +305,23 @@ extern "C" void plcPush(ficlVm *vm) {
 
 }
 
+extern "C" void plcLdr(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Ldr( shortName );
+}
+
+extern "C" void plcLdf(ficlVm *vm) {
+    plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
+
+    int sLen = ficlStackPopInteger(vm->dataStack);
+    char *shortName = (char *)ficlStackPopPointer(vm->dataStack);
+    shortName[sLen]='\0';
+
+    me->Ldf( shortName );
+}
+
