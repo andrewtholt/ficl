@@ -1537,6 +1537,14 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "read-timer", athReadTimer);
 
 #ifdef ATH_OBJECTS
+addPrimitive(dictionary, "plc-tim-ld", plcTimLd);
+addPrimitive(dictionary, "plc-andf", plcAndf);
+addPrimitive(dictionary, "plc-andr", plcAndr);
+addPrimitive(dictionary, "plc-and", plcAnd);
+addPrimitive(dictionary, "plc-orf", plcOrf);
+addPrimitive(dictionary, "plc-orr", plcOrr);
+addPrimitive(dictionary, "plc-orn", plcOrn);
+addPrimitive(dictionary, "plc-ldn", plcLdn);
 addPrimitive(dictionary, "plc-ldf", plcLdf);
 addPrimitive(dictionary, "plc-ldr", plcLdr);
     addPrimitive(dictionary, ">plc", plcPush);

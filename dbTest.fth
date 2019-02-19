@@ -3,7 +3,7 @@
 0 0 2value hostname
 -1 value io
 
-s" /tmp/plc.db" plc-new to plc
+s" /var/tmp/plc.db" plc-new to plc
 \ s" :memory:" plc-new to plc
 
 s" 192.168.0.65" plc plc-set-hostname
