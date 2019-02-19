@@ -8,6 +8,7 @@ else()
 endif()
 
 execute_process( WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ./mkFiclPlatform.sh)
+execute_process( WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/softcore COMMAND make)
 
 set(FICL_BASE_SOURCES 
     main.c
