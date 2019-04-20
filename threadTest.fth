@@ -22,7 +22,7 @@ ted-vm construct
         ." Around ...." counter @ dup . cr
         1+ counter !
         lock release
-        1500 ms 
+        500 ms 
     again
 ;
 
