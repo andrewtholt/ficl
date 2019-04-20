@@ -83,7 +83,9 @@ extern "C" void addIO(ficlVm *vm) {
 
     bool failFlag = me->addIOPoint( shortName, topic, direction, plcClass );
 }
+//
 // Stack: name len plc -- 
+//
 extern "C" void plcLd(ficlVm *vm) {
     plcDatabase *me = (plcDatabase *)ficlStackPopPointer(vm->dataStack);
 
