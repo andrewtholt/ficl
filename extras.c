@@ -1537,43 +1537,16 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "read-timer", athReadTimer);
 
 #ifdef ATH_OBJECTS
-addPrimitive(dictionary, "plc-tim-ld", plcTimLd);
-addPrimitive(dictionary, "plc-andf", plcAndf);
-addPrimitive(dictionary, "plc-andr", plcAndr);
-addPrimitive(dictionary, "plc-and", plcAnd);
-addPrimitive(dictionary, "plc-orf", plcOrf);
-addPrimitive(dictionary, "plc-orr", plcOrr);
-addPrimitive(dictionary, "plc-orn", plcOrn);
-addPrimitive(dictionary, "plc-ldn", plcLdn);
-addPrimitive(dictionary, "plc-ldf", plcLdf);
-addPrimitive(dictionary, "plc-ldr", plcLdr);
-    addPrimitive(dictionary, ">plc", plcPush);
-    addPrimitive(dictionary, "plc-depth", plcDepth);
-    addPrimitive(dictionary, "plc>", plcPop);
-    addPrimitive(dictionary, "plc-boolean!", plcSetBooleanValue);
-    addPrimitive(dictionary, "plc-boolean@", plcGetBooleanValue);
-    addPrimitive(dictionary, "plc-value!", plcSetValue);
-    addPrimitive(dictionary, "plc-value@", plcGetValue);
-    addPrimitive(dictionary, "plc-andn", plcAndNot);
-    addPrimitive(dictionary, "plc-or", plcOr);
-    addPrimitive(dictionary, "plc-end", plcEnd);
-    addPrimitive(dictionary, "plc-out", plcOut);
-    addPrimitive(dictionary, "plc-output-update", plcOutputUpdate);
-    addPrimitive(dictionary, "plc@", plcGetTOS);
-    addPrimitive(dictionary, "plc-set-port", plcSetPort);
-    addPrimitive(dictionary, "plc-get-port", plcGetPort);
-    addPrimitive(dictionary, "plc-get-hostname", plcGetHostname);
-    addPrimitive(dictionary, "plc-set-hostname", plcSetHostname);
-    addPrimitive(dictionary, "plc-mkio", plcMkio);
-    addPrimitive(dictionary, "plc-getdb", plcGetDb);
-    addPrimitive(dictionary, "plc-input-scan", plcInputScan);
-    addPrimitive(dictionary, "plc-ld", plcLd);
-    addPrimitive(dictionary, "plc-add-io", addIO);
+addPrimitive(dictionary, "mqtt-pub", mqttPublish);
+addPrimitive(dictionary, "set-default-callback", setDefaultCallback);
+addPrimitive(dictionary, "mqtt-go", mqttGo);
+addPrimitive(dictionary, "mqtt-connect", mqttConnect);
+addPrimitive(dictionary, "mqtt-sub", mqttSubscribe);
+addPrimitive(dictionary, "mqtt-host!", setMqttHost);
+addPrimitive(dictionary, "mqtt-dump", mqttDump);
+addPrimitive(dictionary, "client-id!", setClientId);
+addPrimitive(dictionary, "new-mqtt", mqttInstance);
 //    addPrimitive(dictionary, "smallest", athSmallest);
-    addPrimitive(dictionary, "plc-new",  plcNew);
-    addPrimitive(dictionary, "plc-setup",  plcSetup );
-    addPrimitive(dictionary, "plc-dump",  plcDump );
-    addPrimitive(dictionary, "plc-verbose",  plcVerbose );
 #endif
 #endif
 

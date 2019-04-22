@@ -62,7 +62,7 @@ message( ${DYN})
 message( ${SQL})
 
 add_executable( ficl ${FICL_BASE_SOURCES})
-add_executable( ficl++ ${FICL_PLUS_SOURCES})
+add_executable( ficl++ mqttHelper.cpp ${FICL_PLUS_SOURCES})
 
 set( platform ${CMAKE_CURRENT_SOURCE_DIR}/mkFiclPlatform.sh)
 
