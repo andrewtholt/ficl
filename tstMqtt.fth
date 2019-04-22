@@ -1,5 +1,22 @@
 
+: >string 
+    >r dup >r abs s>d <# #s r> sign #>
+    r@ char+ swap dup >r move r> r> c! 
+;
+
+16 chars allocate abort" alloc failed" value count-buff
+
+variable counter
+0 counter !
+
 -1 value mqtt
+
+: inc
+    1 counter +!
+    counter @ count-buff >string
+
+    count-buff count
+;
 
 new-mqtt to mqtt
 
@@ -17,5 +34,5 @@ mqtt mqtt-dump
 
 1 mqtt mqtt-go
 
-s" fred" s" /test/counter" mqtt mqtt-pub
+inc  s" /test/counter" mqtt mqtt-pub
 
