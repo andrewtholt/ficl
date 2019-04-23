@@ -47,3 +47,6 @@ void mqttConnect(ficlVm *vm);
 void mqttGo(ficlVm *vm);
 void setDefaultCallback(ficlVm *vm);
 void mqttPublish(ficlVm *vm);
+void setFiclCallback(ficlVm *vm);
+
+void mqttGetMsg(ficlVm *vm);

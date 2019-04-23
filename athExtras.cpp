@@ -2,16 +2,20 @@ extern "C" {
 #include "ficl.h"
 }
 #include "mqttHelper.h"
+#include <iostream>
+#include <queue>
+
+using namespace std;
 
 // #include "smallest.h"
 
 /*
-extern "C" void athSmallest(ficlVm *vm) {
-    smallest *n = new smallest();
+   extern "C" void athSmallest(ficlVm *vm) {
+   smallest *n = new smallest();
 
-    ficlStackPushPointer(vm->dataStack, n);
-}
-*/
+   ficlStackPushPointer(vm->dataStack, n);
+   }
+ */
 extern "C" void mqttInstance(ficlVm *vm) {
     mqttHelper *mqtt = mqttHelper::Instance();
 
@@ -68,6 +72,7 @@ extern "C" void mqttConnect(ficlVm *vm) {
 
     mqttHelper *mqtt = (mqttHelper *)ficlStackPopPointer(vm->dataStack);
 
+    mqtt->setUserDataPointer( (void *)vm);
     failFlag = mqtt->connect2MQTT() ;
 
     rc = ( failFlag ) ? -1 : 0;
@@ -110,6 +115,76 @@ extern "C" void mqttPublish(ficlVm *vm) {
     msg[mLen] = '\0';
 
     mqtt->publish( topic, msg );
+
+}
+
+struct ficlMsg {
+    string t;
+    string p;
+};
+
+queue<ficlMsg> q;
+
+extern "C" {
+    static void ficlMessageCallback(struct mosquitto *mosq, void *obj, const struct mosquitto_message *message) {
+
+        struct ficlMsg out;
+
+        printf("Ficl callback\n");
+        if(message->payloadlen) {
+            cout << "Topic   " << message->topic << endl;
+            cout << "Message " << (char *)message->payload << endl;
+            cout << "================" << endl;
+        }
+
+        ficlVm *myVm = (ficlVm *)obj;
+
+        ficlStackPushPointer(myVm->dataStack, message->topic);
+        ficlStackPushInteger(myVm->dataStack, strlen(message->topic));
+
+        out.t = message->topic;
+        out.p = (char *)message->payload;
+
+        q.push(out);
+
+        cout << "Queue size " << q.size() << endl;
+
+    }
+}
+
+extern "C" void setFiclCallback(ficlVm *vm) {
+    bool failFlag = true;
+    int rc = -1;
+
+    mqttHelper *mqtt = (mqttHelper *)ficlStackPopPointer(vm->dataStack);
+
+    failFlag = mqtt->setMsgCallback((void *)ficlMessageCallback);
+}
+
+extern "C" void mqttGetMsg(ficlVm *vm) {
+    struct ficlMsg n;
+
+    static char topic[255];
+    static char payload[255];
+
+    bzero(topic, sizeof(topic));
+    bzero(payload, sizeof(payload));
+
+    n = q.front();
+
+    string tmpTopic  = n.t;
+    string tmpPayload  = n.p;
+
+    strncpy(topic, tmpTopic.c_str(), tmpTopic.length());
+    strncpy(payload, tmpPayload.c_str(), tmpPayload.length());
+
+    ficlStackPushPointer(vm->dataStack, payload);
+    ficlStackPushInteger(vm->dataStack, tmpPayload.length());
+
+    ficlStackPushPointer(vm->dataStack, topic);
+    ficlStackPushInteger(vm->dataStack, tmpTopic.length());
+
+    q.pop();
 
 }
 

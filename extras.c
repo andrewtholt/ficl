@@ -1537,6 +1537,8 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "read-timer", athReadTimer);
 
 #ifdef ATH_OBJECTS
+addPrimitive(dictionary, "msg@", mqttGetMsg);
+addPrimitive(dictionary, "set-ficl-callback", setFiclCallback);
 addPrimitive(dictionary, "mqtt-pub", mqttPublish);
 addPrimitive(dictionary, "set-default-callback", setDefaultCallback);
 addPrimitive(dictionary, "mqtt-go", mqttGo);

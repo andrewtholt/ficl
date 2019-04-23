@@ -2129,14 +2129,12 @@ static void ficlPrimitiveEnvironmentQ(ficlVm *vm)
 ** specification. Other stack effects are due to the words EVALUATEd. 
 **
 **************************************************************************/
-static void ficlPrimitiveEvaluate(ficlVm *vm)
-{
+void ficlPrimitiveEvaluate(ficlVm *vm) {
     ficlCell id;
     int result;
     ficlString string;
 
     FICL_STACK_CHECK(vm->dataStack,2,0);
-
 
     FICL_STRING_SET_LENGTH(string, ficlStackPopUnsigned(vm->dataStack));
     FICL_STRING_SET_POINTER(string, ficlStackPopPointer(vm->dataStack));

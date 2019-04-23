@@ -54,10 +54,10 @@ find_library(SQL sqlite3)
 find_library(CURL curl)
 
 
-link_directories(/usr/local/lib)
-find_library(PLC plc)
+# link_directories(/usr/local/lib)
+# find_library(PLC plc)
 
-message( ${PLC})
+# message( ${PLC})
 message( ${DYN})
 message( ${SQL})
 
