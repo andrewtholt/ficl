@@ -50,3 +50,4 @@ void mqttPublish(ficlVm *vm);
 void setFiclCallback(ficlVm *vm);
 
 void mqttGetMsg(ficlVm *vm);
+void msgCount(ficlVm *vm);

@@ -2,8 +2,16 @@ extern "C" {
 #include "ficl.h"
 }
 #include "mqttHelper.h"
+#include<stdio.h>
+#include<string.h>
+#include<pthread.h>
+#include<stdlib.h>
+#include<unistd.h>
+
 #include <iostream>
 #include <queue>
+
+pthread_mutex_t lock;
 
 using namespace std;
 
@@ -18,6 +26,11 @@ using namespace std;
  */
 extern "C" void mqttInstance(ficlVm *vm) {
     mqttHelper *mqtt = mqttHelper::Instance();
+
+    if (pthread_mutex_init(&lock, NULL) != 0) {
+        printf("\n mutex init failed\n");
+//        return 1;
+    }
 
     ficlStackPushPointer(vm->dataStack, mqtt);
 }
@@ -137,17 +150,22 @@ extern "C" {
             cout << "================" << endl;
         }
 
+        /*
         ficlVm *myVm = (ficlVm *)obj;
 
         ficlStackPushPointer(myVm->dataStack, message->topic);
         ficlStackPushInteger(myVm->dataStack, strlen(message->topic));
+        */
 
         out.t = message->topic;
         out.p = (char *)message->payload;
 
-        q.push(out);
+        pthread_mutex_lock(&lock);
 
+        q.push(out);
         cout << "Queue size " << q.size() << endl;
+
+        pthread_mutex_unlock(&lock);
 
     }
 }
@@ -156,6 +174,7 @@ extern "C" void setFiclCallback(ficlVm *vm) {
     bool failFlag = true;
     int rc = -1;
 
+    cout << "Set Ficl callback." << endl;
     mqttHelper *mqtt = (mqttHelper *)ficlStackPopPointer(vm->dataStack);
 
     failFlag = mqtt->setMsgCallback((void *)ficlMessageCallback);
@@ -170,10 +189,12 @@ extern "C" void mqttGetMsg(ficlVm *vm) {
     bzero(topic, sizeof(topic));
     bzero(payload, sizeof(payload));
 
+    pthread_mutex_lock(&lock);
     n = q.front();
 
     string tmpTopic  = n.t;
     string tmpPayload  = n.p;
+
 
     strncpy(topic, tmpTopic.c_str(), tmpTopic.length());
     strncpy(payload, tmpPayload.c_str(), tmpPayload.length());
@@ -185,6 +206,13 @@ extern "C" void mqttGetMsg(ficlVm *vm) {
     ficlStackPushInteger(vm->dataStack, tmpTopic.length());
 
     q.pop();
+    pthread_mutex_unlock(&lock);
 
+}
+
+extern "C" void msgCount(ficlVm *vm) {
+    pthread_mutex_lock(&lock);
+    ficlStackPushInteger(vm->dataStack, q.size());
+    pthread_mutex_unlock(&lock);
 }
 
