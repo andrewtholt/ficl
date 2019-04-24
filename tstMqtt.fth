@@ -11,6 +11,8 @@ variable counter
 
 -1 value mqtt
 
+\ 
+\ Add one to counter and return string
 : inc
     1 counter +!
     counter @ count-buff >string
@@ -34,9 +36,8 @@ mqtt set-ficl-callback
 mqtt mqtt-dump
 
 : tst
-1 mqtt mqtt-go
-
-inc  s" /test/counter" mqtt mqtt-pub
+    1 mqtt mqtt-go
+    inc  s" /test/counter" mqtt mqtt-pub
 ;
 
 
