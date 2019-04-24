@@ -150,13 +150,6 @@ extern "C" {
             cout << "================" << endl;
         }
 
-        /*
-        ficlVm *myVm = (ficlVm *)obj;
-
-        ficlStackPushPointer(myVm->dataStack, message->topic);
-        ficlStackPushInteger(myVm->dataStack, strlen(message->topic));
-        */
-
         out.t = message->topic;
         out.p = (char *)message->payload;
 
@@ -212,7 +205,8 @@ extern "C" void mqttGetMsg(ficlVm *vm) {
 
 extern "C" void msgCount(ficlVm *vm) {
     pthread_mutex_lock(&lock);
-    ficlStackPushInteger(vm->dataStack, q.size());
+    int depth = q.size();
     pthread_mutex_unlock(&lock);
+    ficlStackPushInteger(vm->dataStack, depth);
 }
 

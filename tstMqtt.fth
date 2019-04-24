@@ -40,4 +40,26 @@ mqtt mqtt-dump
     inc  s" /test/counter" mqtt mqtt-pub
 ;
 
+: tst2
+    begin
+        msg-count@ 0>
+    while
+        ." Message" cr
+        msg@ 
+        cr
+        type cr
+        type cr
+    repeat
+;
+
+: tst3
+    begin
+        1 mqtt mqtt-go
+
+        tst2
+
+        1000 ms
+    again
+
+;
 
