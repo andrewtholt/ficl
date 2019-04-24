@@ -40,15 +40,29 @@ mqtt mqtt-dump
     inc  s" /test/counter" mqtt mqtt-pub
 ;
 
+0 value START
+defer logic
+
+-1 constant ON
+0 constant OFF
+
+
+: /test/start
+    ." START" cr 
+    evaluate to START
+;
+
+
 : tst2
     begin
         msg-count@ 0>
     while
         ." Message" cr
         msg@ 
-        cr
-        type cr
-        type cr
+
+        evaluate
+
+        logic
     repeat
 ;
 
