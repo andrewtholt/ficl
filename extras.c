@@ -12,6 +12,8 @@
 #include <sys/un.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include "athTimer.h"
 
 #ifdef ATH_OBJECTS
@@ -1283,6 +1285,29 @@ static void ficlPrimitiveWRulez(ficlVm *vm)
 
 #ifdef ATH
 
+static void athFcntl(ficlVm *vm) {
+    int cmd;
+    int arg;
+    int fd;
+    int status = 0;
+
+    //    ficlFile *ff;
+
+    arg = ficlStackPopInteger(vm->dataStack);
+    cmd = ficlStackPopInteger(vm->dataStack);
+    //  ff  = ficlStackPopPointer(vm->dataStack);
+    fd  = ficlStackPopInteger(vm->dataStack);
+
+    //    fd = ff->fd;
+
+    //    printf("Before Flags = %02x\n",fcntl(fd,F_GETFL,0) );
+    status = fcntl(fd,cmd,arg);
+    //    printf("After Flags = %02x\n",fcntl(fd,F_GETFL,0) );
+    ficlStackPushInteger(vm->dataStack, status);
+
+}
+
+
 static void athGetenv(ficlVm *vm) {
     char *tmp;
     int destLen = ficlStackPopInteger(vm->dataStack);
@@ -1523,6 +1548,7 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
 
 #ifdef ATH
+    addPrimitive(dictionary, "fcntl",   athFcntl);
     addPrimitive(dictionary, "getenv",  athGetenv);
     addPrimitive(dictionary, "fd@",     athFdGet);
     addPrimitive(dictionary, "socket",  athSocket);
