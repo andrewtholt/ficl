@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.8.9)
 project( ficl )
 
+# set(CMAKE_CXX_STANDARD 11)
+
+SET(CMAKE_CXX_FLAGS "-std=c++11")
+
+add_definitions( -Dlinux )
+
+
 if( ARCH STREQUAL "linux")
     message("Set")
 else()

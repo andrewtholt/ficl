@@ -1,1 +1,1 @@
-./plc.mk
+./basic.mk
