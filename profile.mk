@@ -1,1 +1,1 @@
-./basic.mk
+./rpi0.mk

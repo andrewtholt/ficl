@@ -1,5 +1,9 @@
 
 OPTFLAGS += -m32
+CC = arm-linux-gnueabi-gcc
+CPP = arm-linux-gnueabi-g++
+LIB = "arm-linux-gnueabi-ar cr "
+TARGET = "-march=armv6 -mfpu=vfp -mfloat-abi=hard "
 
 all:
-	make -f Makefile
+	CC=$(CC) CPP=$(CPP) LIB=$(LIB) TARGET=$(TARGET) make -f Makefile
