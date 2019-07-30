@@ -22,6 +22,15 @@
 #endif
 #endif
 
+#ifdef POSIX_IPC
+#include <mqueue.h>
+#define MQ_FLAGS 1
+#define MQ_MAXMSG 2
+#define MQ_MSGSIZE 3
+#define MQ_CURMSGS 4
+
+#endif
+
 #ifdef WIN32
 #include <io.h>
 #define getcwd _getcwd
@@ -1460,6 +1469,206 @@ static void athReadTimer(ficlVm * vm) {
 
 #endif //ATH
 
+#ifdef POSIX_IPC
+static void athMqCreate(ficlVm *vm) {
+    char *path;
+    int oflags;
+    int perms;
+    int len; 
+    struct mq_attr *buf;
+    mode_t mode = 0666; // Let umask sort it out.
+    mqd_t mqd; 
+
+    oflags = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    path = ficlStackPopPointer(vm->dataStack);
+    path[len]='\0';
+
+    mqd = mq_open(path,(oflags | O_CREAT), mode, NULL);
+
+    mqd = mq_open(path,(oflags | O_CREAT), mode, NULL);
+
+    if( mqd < 0) { 
+        ficlStackPushInteger(vm->dataStack, -1); 
+    } else {
+        ficlStackPushInteger(vm->dataStack, mqd);
+        ficlStackPushInteger(vm->dataStack, 0);
+    }
+}
+
+static void athMqOpen(ficlVm *vm) {
+    char *path;
+    int oflags;
+    int perms;
+    int len;
+    struct mq_attr *buf;
+    mqd_t mqd;
+
+    oflags = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    path = ficlStackPopPointer(vm->dataStack);
+    path[len]='\0';
+
+    mqd = mq_open(path,oflags);
+    if( mqd < 0) {
+        ficlStackPushInteger(vm->dataStack, -1);
+    } else {
+        ficlStackPushInteger(vm->dataStack, mqd);
+        ficlStackPushInteger(vm->dataStack, 0);
+    }
+}
+
+static void athMqClose(ficlVm *vm) {
+    mqd_t mqd;
+
+    mqd = (mqd_t)ficlStackPopInteger(vm->dataStack);
+
+    ficlStackPushInteger(vm->dataStack, mq_close(mqd));
+}
+
+static void athMqUnlink(ficlVm *vm) {
+    int len;
+    char *path;
+    int rc;
+
+    len = ficlStackPopInteger(vm->dataStack);
+    path = ficlStackPopPointer(vm->dataStack);
+    path[len]='\0';
+
+    rc=mq_unlink(path);
+    ficlStackPushInteger(vm->dataStack, rc);
+}
+
+static void athMqRecv(ficlVm *vm) {
+    mqd_t mqd;
+    uint8_t *msgptr;
+    struct mq_attr obuf;
+    unsigned int msg_prio;
+    int rc;
+    int len;
+
+    msg_prio = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    msgptr = (uint8_t *)ficlStackPopPointer(vm->dataStack);
+    mqd = (mqd_t)ficlStackPopInteger(vm->dataStack);
+
+    rc = mq_receive(mqd,msgptr,len,&msg_prio);
+
+    if( rc < 0) {
+        ficlStackPushInteger(vm->dataStack, -1);
+    } else {
+        ficlStackPushInteger(vm->dataStack, msg_prio);
+        ficlStackPushInteger(vm->dataStack, rc);
+        ficlStackPushInteger(vm->dataStack, 0);
+    }
+
+}
+
+static void athMqTimedRecv(ficlVm *vm) {
+    mqd_t mqd;
+    uint8_t *msgptr;
+    int delayMs;
+    struct mq_attr obuf;
+    unsigned int msg_prio;
+    int rc;
+    int len;
+    struct timespec time;
+
+    rc = clock_gettime(CLOCK_REALTIME, &time);
+
+    delayMs = ficlStackPopInteger(vm->dataStack);
+    msg_prio = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    msgptr = (uint8_t *)ficlStackPopPointer(vm->dataStack);
+    mqd = (mqd_t)ficlStackPopInteger(vm->dataStack);
+
+    /*
+    fprintf(stderr,"Before Seconds=%d\n",time.tv_sec);
+    fprintf(stderr,"       Nano Seconds=%lu\n",time.tv_nsec);
+    */
+
+    rc = mq_getattr(mqd,&obuf);
+
+    time.tv_sec  += (delayMs / 1000);
+    time.tv_nsec += (delayMs % 1000) * 1000000;
+
+    if(time.tv_nsec >= 1000000000 ) {
+        time.tv_nsec -= 1000000000;
+        time.tv_sec++;
+    }
+
+    rc = mq_timedreceive(mqd,msgptr,len,&msg_prio,&time);
+
+    rc = mq_timedreceive(mqd,msgptr,len,&msg_prio,&time);
+
+    if( rc < 0) {
+        ficlStackPushInteger(vm->dataStack, -1);
+    } else {
+        ficlStackPushInteger(vm->dataStack, rc);
+        ficlStackPushInteger(vm->dataStack, 0);
+    }
+}
+
+static void athMqSend(ficlVm *vm) {
+    mqd_t mqd;
+    uint8_t *msgptr;
+    unsigned int msg_prio;
+    int len;
+    int rc;
+
+    msg_prio = ficlStackPopInteger(vm->dataStack);
+    len = ficlStackPopInteger(vm->dataStack);
+    msgptr = (uint8_t *)ficlStackPopPointer(vm->dataStack);
+    mqd = (mqd_t)ficlStackPopInteger(vm->dataStack);
+
+    rc = mq_send(mqd,msgptr,len,msg_prio);
+
+    ficlStackPushInteger(vm->dataStack, rc);
+
+}
+
+/*
+ * Stack: mqd selector -- value 0 | -1
+ */
+static void athMqGetAttr(ficlVm *vm) {
+    mqd_t mqd;
+    struct mq_attr obuf;
+    int rc;
+    int sel;
+
+    int status;
+
+    sel = ficlStackPopInteger(vm->dataStack);
+    mqd = ficlStackPopInteger(vm->dataStack);
+
+    rc = mq_getattr(mqd,&obuf);
+    if ( rc < 0) {
+        ficlStackPushInteger(vm->dataStack,-1);
+    } else {
+        status = 0;
+        switch(sel) {
+            case MQ_FLAGS:
+                ficlStackPushInteger(vm->dataStack,obuf.mq_flags);
+                break;
+            case MQ_MAXMSG:
+                ficlStackPushInteger(vm->dataStack,obuf.mq_maxmsg);
+                break;
+            case MQ_MSGSIZE:
+                ficlStackPushInteger(vm->dataStack,obuf.mq_msgsize );
+                break;
+            case MQ_CURMSGS:
+                ficlStackPushInteger(vm->dataStack,obuf.mq_curmsgs);
+                break;
+            default:
+                status=-1;
+                break;
+        }
+        ficlStackPushInteger(vm->dataStack,status);
+    }
+}
+
+#endif
+
 #define addPrimitive(d,nm,fn) \
     ficlDictionarySetPrimitive(d,nm,fn,FICL_WORD_DEFAULT)
 
@@ -1546,6 +1755,20 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "rulez",   ficlPrimitiveRulez);
     addPrimitive(dictionary, "wrulez",  ficlPrimitiveWRulez);
     addPrimitive(dictionary, "defuzzify", ficlPrimitiveDefuzzify);
+
+#ifdef POSIX_IPC
+    ficlDictionarySetConstant(environment, "posix_ipc",              FICL_TRUE);
+    addPrimitive(dictionary, "mq-create", athMqCreate);
+    addPrimitive(dictionary, "mq-open", athMqOpen);
+    addPrimitive(dictionary, "mq-close", athMqClose);
+    addPrimitive(dictionary, "mq-unlink", athMqUnlink);
+    addPrimitive(dictionary, "mq-getattr", athMqGetAttr);
+    addPrimitive(dictionary, "mq-recv", athMqRecv);
+    addPrimitive(dictionary, "mq-timedrecv", athMqTimedRecv);
+    addPrimitive(dictionary, "mq-send", athMqSend);
+#else
+    ficlDictionarySetConstant(environment, "posix_ipc",              FICL_FALSE);
+#endif
 
 #ifdef ATH
     addPrimitive(dictionary, "fcntl",   athFcntl);
