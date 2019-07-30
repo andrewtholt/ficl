@@ -1758,6 +1758,14 @@ void ficlSystemCompileExtras(ficlSystem *system)
 
 #ifdef POSIX_IPC
     ficlDictionarySetConstant(environment, "posix_ipc",              FICL_TRUE);
+
+    ficlDictionarySetConstant(dictionary,  (char *)"O_RDONLY", O_RDONLY);
+    ficlDictionarySetConstant(dictionary,  (char *)"O_WRONLY", O_WRONLY);
+    ficlDictionarySetConstant(dictionary,  (char *)"O_RDWR", O_RDWR);
+    ficlDictionarySetConstant(dictionary,  (char *)"O_CREAT", O_CREAT);
+    ficlDictionarySetConstant(dictionary,  (char *)"O_EXCL", O_EXCL);
+    ficlDictionarySetConstant(dictionary,  (char *)"O_TRUNC", O_TRUNC);
+
     addPrimitive(dictionary, "mq-create", athMqCreate);
     addPrimitive(dictionary, "mq-open", athMqOpen);
     addPrimitive(dictionary, "mq-close", athMqClose);
