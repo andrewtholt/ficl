@@ -1787,7 +1787,7 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "socket-recv",  athRecv);
     addPrimitive(dictionary, "socket-send",  athSend);
     addPrimitive(dictionary, "socket-service",athGetService);
-    addPrimitive(dictionary, "socket-Close", athClose);
+    addPrimitive(dictionary, "socket-close", athClose);
 
     addPrimitive(dictionary, "mktimer", athMkTimer);
     addPrimitive(dictionary, "start-timer", athStartTimer);
