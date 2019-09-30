@@ -110,6 +110,9 @@ ficlplatform.h: Makefile
 
 .cc.o:
 	$(CPP) $(CPFLAGS) -c $*.cc
+
+.cpp.o:
+	$(CPP) $(CPFLAGS) -c $*.cpp
 #
 #       generic cleanup code
 #
