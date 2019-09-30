@@ -15,14 +15,15 @@ pthread_mutex_t lock;
 
 using namespace std;
 
-#include "smallest.h"
+// #include "smallest.h"
 
-extern "C" void athSmallest(ficlVm *vm) {
-    smallest *n = new smallest();
-
-    ficlStackPushPointer(vm->dataStack, n);
-}
 /*
+   extern "C" void athSmallest(ficlVm *vm) {
+   smallest *n = new smallest();
+
+   ficlStackPushPointer(vm->dataStack, n);
+   }
+ */
 extern "C" void mqttInstance(ficlVm *vm) {
     mqttHelper *mqtt = mqttHelper::Instance();
 
@@ -208,5 +209,4 @@ extern "C" void msgCount(ficlVm *vm) {
     pthread_mutex_unlock(&lock);
     ficlStackPushInteger(vm->dataStack, depth);
 }
-*/
 

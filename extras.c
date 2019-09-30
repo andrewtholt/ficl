@@ -1787,13 +1787,14 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "socket-recv",  athRecv);
     addPrimitive(dictionary, "socket-send",  athSend);
     addPrimitive(dictionary, "socket-service",athGetService);
-    addPrimitive(dictionary, "socket-Close", athClose);
+    addPrimitive(dictionary, "socket-close", athClose);
 
     addPrimitive(dictionary, "mktimer", athMkTimer);
     addPrimitive(dictionary, "start-timer", athStartTimer);
     addPrimitive(dictionary, "read-timer", athReadTimer);
 
 #ifdef ATH_OBJECTS
+    /*
 addPrimitive(dictionary, "msg-count@", msgCount);
 addPrimitive(dictionary, "msg@", mqttGetMsg);
 addPrimitive(dictionary, "set-ficl-callback", setFiclCallback);
@@ -1806,7 +1807,8 @@ addPrimitive(dictionary, "mqtt-host!", setMqttHost);
 addPrimitive(dictionary, "mqtt-dump", mqttDump);
 addPrimitive(dictionary, "client-id!", setClientId);
 addPrimitive(dictionary, "new-mqtt", mqttInstance);
-//    addPrimitive(dictionary, "smallest", athSmallest);
+*/
+addPrimitive(dictionary, "smallest", athSmallest);
 #endif
 #endif
 
