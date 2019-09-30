@@ -118,6 +118,8 @@ clean:
 	$(RM) ficlplatform.h
 	$(RM) softcore.c
 	$(RM) -f cscope.out
+	$(RM) -f ficll
+	$(RM) -f ficl++
 
 clobber: clean
 	$(RM) -f ficll ficl++
