@@ -1794,6 +1794,7 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "read-timer", athReadTimer);
 
 #ifdef ATH_OBJECTS
+    addPrimitive(dictionary, "smallest", athSmallest);
     /*
 addPrimitive(dictionary, "msg-count@", msgCount);
 addPrimitive(dictionary, "msg@", mqttGetMsg);
@@ -1808,7 +1809,6 @@ addPrimitive(dictionary, "mqtt-dump", mqttDump);
 addPrimitive(dictionary, "client-id!", setClientId);
 addPrimitive(dictionary, "new-mqtt", mqttInstance);
 */
-addPrimitive(dictionary, "smallest", athSmallest);
 #endif
 #endif
 
