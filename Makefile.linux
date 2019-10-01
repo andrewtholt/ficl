@@ -21,20 +21,20 @@ MFLAGS +=-DATH
 ALL = ficl++
 ifdef ATH_OBJECTS
 MFLAGS +=-DATH_OBJECTS
-XOBJECTS=athExtras.o smallest.o
+XOBJECTS=athExtras.o smallest.o timerClass.o
 endif
 endif
 
 CFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
 CPFLAGS= $(OPTFLAGS) -c $(SHFLAGS) $(TARGET) $(MFLAGS)
 # CC=gcc
-# CPP=g++
+CPP=g++ -std=c++14
 # LIB = ar cr
 RANLIB = ranlib
 STATIC = 
 
 
-OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o athTimer.o $(DTOAO) # athExtras.o smallest.o
+OBJECTS= dictionary.o system.o fileaccess.o float.o double.o prefix.o search.o softcore.o stack.o tools.o vm.o primitives.o bit.o lzuncompress.o unix.o utility.o hash.o callback.o word.o curterm.o extras.o bswap.o ficlblas.o mt19937ar.o mt19937-64.o $(DTOAO) # athExtras.o smallest.o
 
 HEADERS= ficlplatform.h ficl.h ficlplatform/unix.h
 

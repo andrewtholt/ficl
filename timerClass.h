@@ -16,6 +16,8 @@ extern "C" {
 class timerClass {
     private:
         uint64_t startTime=0;
+        uint8_t tst=0;
+        uint8_t started=0;
     public:
         timerClass();
         void startTimer(void);

@@ -13,10 +13,9 @@
  * Effects: 
  ***********************************************************************/
 timerClass::timerClass() {
-
+    started = 0;
     std::cout << "Timer" << std::endl;
 }
-
 
 /***********************************************************************
  *  Method: timerClass::startTimer
@@ -28,6 +27,7 @@ void timerClass::startTimer(void) {
     struct timeval startTV;
     gettimeofday(&startTV, NULL);
     startTime = (startTV.tv_sec * 1000) + (startTV.tv_usec / 1000);
+    started = 1;
 }
 
 
@@ -39,12 +39,18 @@ void timerClass::startTimer(void) {
  ***********************************************************************/
 uint64_t timerClass::readTimer() {
     struct timeval nowTV;
+    uint64_t result=0;
 
-    gettimeofday(&nowTV, NULL);
+    if(started != 0) {
+        gettimeofday(&nowTV, NULL);
 
-    uint64_t nowTime = (nowTV.tv_sec * 1000) + (nowTV.tv_usec / 1000);
+        uint64_t nowTime = (nowTV.tv_sec * 1000) + (nowTV.tv_usec / 1000);
 
-    return( nowTime - startTime );
+        result = nowTime - startTime ;
+    } else {
+        result=0;
+    }
+    return( result );
 }
 
 

@@ -2,6 +2,11 @@
 #include "plcDatabase.h"
 #endif
 void athSmallest(ficlVm *vm) ;
+
+void mkTimerClass(ficlVm *vm) ;
+void startTimer(ficlVm *vm);
+void readTimer(ficlVm *vm);
+
 void plcNew(ficlVm *vm) ;
 void plcSetup(ficlVm *vm) ;
 void plcDump(ficlVm *vm) ;

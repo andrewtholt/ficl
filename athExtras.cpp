@@ -16,6 +16,27 @@ pthread_mutex_t lock;
 using namespace std;
 
 #include "smallest.h"
+#include "timerClass.h"
+
+extern "C" void mkTimerClass(ficlVm *vm) {
+    timerClass *n=new timerClass();
+
+    ficlStackPushPointer(vm->dataStack, &n);
+}
+
+extern "C" void startTimer(ficlVm *vm) {
+    timerClass *n = (timerClass *)ficlStackPopPointer(vm->dataStack);
+
+    n->startTimer();
+}
+
+extern "C" void readTimer(ficlVm *vm) {
+    timerClass *n = (timerClass *)ficlStackPopPointer(vm->dataStack);
+
+    uint64_t r = (int) n->readTimer();
+    cout << r << endl;
+    ficlStackPushInteger(vm->dataStack, r );
+}
 
 extern "C" void athSmallest(ficlVm *vm) {
     smallest *n = new smallest();

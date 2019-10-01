@@ -14,7 +14,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "athTimer.h"
+// #include "athTimer.h"
 
 #ifdef ATH_OBJECTS
 #warning "ATH_OBJECTS"
@@ -1448,6 +1448,7 @@ static void athClose(ficlVm * vm) {
     close(sock);
 }
 
+/*
 static void athMkTimer(ficlVm * vm) {
     struct athTimer *myTimer = mkTimer();
 
@@ -1465,7 +1466,7 @@ static void athReadTimer(ficlVm * vm) {
 
     ficlStackPushInteger(vm->dataStack, readTimer( myTimer ));
 }
-
+*/
 
 #endif //ATH
 
@@ -1789,12 +1790,17 @@ void ficlSystemCompileExtras(ficlSystem *system)
     addPrimitive(dictionary, "socket-service",athGetService);
     addPrimitive(dictionary, "socket-close", athClose);
 
+    /*
     addPrimitive(dictionary, "mktimer", athMkTimer);
     addPrimitive(dictionary, "start-timer", athStartTimer);
     addPrimitive(dictionary, "read-timer", athReadTimer);
+    */
 
 #ifdef ATH_OBJECTS
     addPrimitive(dictionary, "smallest", athSmallest);
+    addPrimitive(dictionary, "mk-timer", mkTimerClass);
+    addPrimitive(dictionary, "start-timer", startTimer);
+    addPrimitive(dictionary, "read-timer", readTimer);
     /*
 addPrimitive(dictionary, "msg-count@", msgCount);
 addPrimitive(dictionary, "msg@", mqttGetMsg);
