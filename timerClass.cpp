@@ -54,3 +54,14 @@ uint64_t timerClass::readTimer() {
 }
 
 
+/***********************************************************************
+ *  Method: timerClass::getStarted
+ *  Params: 
+ * Returns: uint8_t
+ * Effects: 
+ ***********************************************************************/
+int timerClass::getStarted() {
+    printf("Started=%d\n",started);
+}
+
+

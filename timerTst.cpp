@@ -8,7 +8,12 @@ int main() {
 
     timerClass fred;
 
+    fred.getStarted();
+    sleep(1);
+    cout << fred.readTimer() << endl;
+
     fred.startTimer();
+    fred.getStarted();
 
     sleep(1);
     cout << fred.readTimer() << endl;

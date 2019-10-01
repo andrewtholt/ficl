@@ -21,7 +21,7 @@ using namespace std;
 extern "C" void mkTimerClass(ficlVm *vm) {
     timerClass *n=new timerClass();
 
-    ficlStackPushPointer(vm->dataStack, &n);
+    ficlStackPushPointer(vm->dataStack, n);
 }
 
 extern "C" void startTimer(ficlVm *vm) {
@@ -34,7 +34,7 @@ extern "C" void readTimer(ficlVm *vm) {
     timerClass *n = (timerClass *)ficlStackPopPointer(vm->dataStack);
 
     uint64_t r = (int) n->readTimer();
-    cout << r << endl;
+    
     ficlStackPushInteger(vm->dataStack, r );
 }
 
