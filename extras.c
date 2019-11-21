@@ -641,9 +641,11 @@ int recursiveMutexInit(pthread_mutex_t *mutex)
 
 /* : GET-SCHED ( -- n) */
 static void ficlPrimitivesGetSched(ficlVm *vm) {
-    int policy;
+    int policy = -1;
 
+#ifdef linux
     policy = sched_getscheduler(0);
+#endif
 
     ficlStackPushInteger(vm->dataStack, policy);
 }
@@ -657,8 +659,10 @@ static void ficlPrimitivesSetSched(ficlVm *vm) {
 
     param.sched_priority = 99;
 
+#ifdef linux
     policy = ficlStackPopInteger(vm->dataStack);
     rc=sched_setscheduler( 0,policy,  &param );
+#endif
 
     ficlStackPushInteger(vm->dataStack, rc);
 }
