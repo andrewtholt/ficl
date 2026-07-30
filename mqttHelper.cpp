@@ -233,6 +233,7 @@ bool mqttHelper::setMsgCallback( ) {
         msgCb = message_callback;
         mosquitto_message_callback_set(mosq, msgCb);
     }
+    return failFlag;
 }
 
 bool mqttHelper::setMsgCallback( void *fptr) {

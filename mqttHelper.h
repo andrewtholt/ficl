@@ -15,7 +15,7 @@ class mqttHelper{
     private:
         mqttHelper(){};  // Private so that it can  not be called
         mqttHelper(mqttHelper const&){};             // copy constructor is private
-        mqttHelper& operator=(mqttHelper const&){};  // assignment operator is private
+        mqttHelper& operator=(mqttHelper const&){return *this;};  // assignment operator is private
         static mqttHelper* m_pInstance;
 
         std::string mqttHost = "localhost";

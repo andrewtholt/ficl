@@ -7,9 +7,9 @@ struct athTimer {
     uint64_t startTime;
 } ;
 
-struct athTimer *mkTimer();
+struct athTimer *ath_mkTimer();
 
-void startTimer( struct athTimer *ptr);
+void ath_startTimer( struct athTimer *ptr);
 
-uint64_t readTimer ( struct athTimer *ptr);
+uint64_t ath_readTimer ( struct athTimer *ptr);
 

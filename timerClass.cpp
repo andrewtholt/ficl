@@ -62,6 +62,7 @@ uint64_t timerClass::readTimer() {
  ***********************************************************************/
 int timerClass::getStarted() {
     printf("Started=%d\n",started);
+    return started;
 }
 
 

@@ -44,10 +44,9 @@ set(FICL_BASE_SOURCES
     ficlblas.c 
     mt19937ar.c 
     mt19937-64.c 
-    athTimer.c
     )
 
-set(FICL_PLUS_SOURCES ${FICL_BASE_SOURCES} athExtras.cpp)
+set(FICL_PLUS_SOURCES ${FICL_BASE_SOURCES} athExtras.cpp timerClass.cpp smallest.cpp)
 
 message("${ARCH}")
 
