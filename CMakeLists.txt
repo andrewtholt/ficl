@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.25.1)
 project( ficl )
 
 # set(CMAKE_CXX_STANDARD 11)
